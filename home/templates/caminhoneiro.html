@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class="container">
+            <div class="alert alert-{{ message.tags }}">
+                {{  message }}
+            </div>
+        </div>
+        {% endfor %}
+    
+    {% endif %}
+    <div class="container text-center mt-5">
+        <form action="{% url "adiciona_caminhoneiro" %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="nome" id="" class="form-control" placeholder="Nome">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="email" id="" class="form-control" placeholder="Email">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Email</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Nome do Veiculo</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+    {% for caminhoneiro in caminhoneiros %}
+              <tr>
+                <th scope="row">{{ caminhoneiro.Id }}</th>
+                <td>{{ caminhoneiro.Email }}</td>
+                <td>{{ caminhoneiro.Nome }}</td>
+                <td>{{ caminhoneiro.Caminhao.Model }}</td>
+                <td><a href="{% url "deletar_caminhoneiro"  id=caminhoneiro.Id%}">Deletar</a></td>
+              </tr>
+             
+    {% endfor %}
+    
+            </tbody>
+    
+          </table>
+    </div>
+{% endblock content %}
+
